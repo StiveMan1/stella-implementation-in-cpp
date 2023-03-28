@@ -641,94 +641,92 @@ namespace Stella {
     }
 
     void VisitTypeCheck::visitListStellaIdent(ListStellaIdent *list_stella_ident) {
-        for (ListStellaIdent::iterator i = list_stella_ident->begin(); i != list_stella_ident->end(); ++i) {
-            visitStellaIdent(*i);
+        for (auto & i : *list_stella_ident) {
+            visitStellaIdent(i);
         }
     }
 
     void VisitTypeCheck::visitListExtensionName(ListExtensionName *list_extension_name) {
-        for (ListExtensionName::iterator i = list_extension_name->begin(); i != list_extension_name->end(); ++i) {
-            visitExtensionName(*i);
+        for (auto & i : *list_extension_name) {
+            visitExtensionName(i);
         }
     }
 
     void VisitTypeCheck::visitListExtension(ListExtension *list_extension) {
-        for (ListExtension::iterator i = list_extension->begin(); i != list_extension->end(); ++i) {
-            (*i)->accept(this);
+        for (auto & i : *list_extension) {
+            i->accept(this);
         }
     }
 
     void VisitTypeCheck::visitListDecl(ListDecl *list_decl) {
-        for (ListDecl::iterator i = list_decl->begin(); i != list_decl->end(); ++i) {
-            (*i)->accept(this);
+        for (auto & i : *list_decl) {
+            i->accept(this);
         }
     }
 
     void VisitTypeCheck::visitListLocalDecl(ListLocalDecl *list_local_decl) {
-        for (ListLocalDecl::iterator i = list_local_decl->begin(); i != list_local_decl->end(); ++i) {
-            (*i)->accept(this);
+        for (auto & i : *list_local_decl) {
+            i->accept(this);
         }
     }
 
     void VisitTypeCheck::visitListAnnotation(ListAnnotation *list_annotation) {
-        for (ListAnnotation::iterator i = list_annotation->begin(); i != list_annotation->end(); ++i) {
-            (*i)->accept(this);
+        for (auto & i : *list_annotation) {
+            i->accept(this);
         }
     }
 
     void VisitTypeCheck::visitListParamDecl(ListParamDecl *list_param_decl) {
-        for (ListParamDecl::iterator i = list_param_decl->begin(); i != list_param_decl->end(); ++i) {
-            (*i)->accept(this);
+        for (auto & i : *list_param_decl) {
+            i->accept(this);
         }
     }
 
     void VisitTypeCheck::visitListExpr(ListExpr *list_expr) {
-        for (ListExpr::iterator i = list_expr->begin(); i != list_expr->end(); ++i) {
-            (*i)->accept(this);
+        for (auto & i : *list_expr) {
+            i->accept(this);
         }
     }
 
     void VisitTypeCheck::visitListMatchCase(ListMatchCase *list_match_case) {
-        for (ListMatchCase::iterator i = list_match_case->begin(); i != list_match_case->end(); ++i) {
-            (*i)->accept(this);
+        for (auto & i : *list_match_case) {
+            i->accept(this);
         }
     }
 
     void VisitTypeCheck::visitListPattern(ListPattern *list_pattern) {
-        for (ListPattern::iterator i = list_pattern->begin(); i != list_pattern->end(); ++i) {
-            (*i)->accept(this);
+        for (auto & i : *list_pattern) {
+            i->accept(this);
         }
     }
 
     void VisitTypeCheck::visitListLabelledPattern(ListLabelledPattern *list_labelled_pattern) {
-        for (ListLabelledPattern::iterator i = list_labelled_pattern->begin(); i != list_labelled_pattern->end(); ++i) {
-            (*i)->accept(this);
+        for (auto & i : *list_labelled_pattern) {
+            i->accept(this);
         }
     }
 
     void VisitTypeCheck::visitListBinding(ListBinding *list_binding) {
-        for (ListBinding::iterator i = list_binding->begin(); i != list_binding->end(); ++i) {
-            (*i)->accept(this);
+        for (auto & i : *list_binding) {
+            i->accept(this);
         }
     }
 
     void VisitTypeCheck::visitListType(ListType *list_type) {
-        for (ListType::iterator i = list_type->begin(); i != list_type->end(); ++i) {
-            (*i)->accept(this);
+        for (auto & i : *list_type) {
+            i->accept(this);
         }
     }
 
     void VisitTypeCheck::visitListVariantFieldType(ListVariantFieldType *list_variant_field_type) {
-        for (ListVariantFieldType::iterator i = list_variant_field_type->begin();
-             i != list_variant_field_type->end(); ++i) {
-            (*i)->accept(this);
+        for (auto & i : *list_variant_field_type) {
+            i->accept(this);
         }
     }
 
     void VisitTypeCheck::visitListRecordFieldType(ListRecordFieldType *list_record_field_type) {
-        for (ListRecordFieldType::iterator i = list_record_field_type->begin();
-             i != list_record_field_type->end(); ++i) {
-            (*i)->accept(this);
+        for (auto & i : *list_record_field_type) {
+            i->accept(this);
         }
     }
 
