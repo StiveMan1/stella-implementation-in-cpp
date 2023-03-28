@@ -317,6 +317,7 @@ class Decl : public Visitable
 {
 public:
   virtual Decl *clone() const = 0;
+  virtual StellaIdent getIdent() const = 0;
   int line_number, char_number;
 };
 
@@ -501,6 +502,7 @@ public:
   ~DeclFun();
   virtual void accept(Visitor *v);
   virtual DeclFun *clone() const;
+  virtual StellaIdent getIdent() const;
   void swap(DeclFun &);
 };
 
@@ -516,6 +518,7 @@ public:
   ~DeclTypeAlias();
   virtual void accept(Visitor *v);
   virtual DeclTypeAlias *clone() const;
+  virtual StellaIdent getIdent() const;
   void swap(DeclTypeAlias &);
 };
 

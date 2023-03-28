@@ -23,6 +23,8 @@ set (SRCS
   src/TypeCheck.cpp
   src/VisitTypeCheck.h
   src/VisitTypeCheck.cpp
+  src/StateTypeChecker.h
+  src/StateTypeChecker.cpp
 )
 
 add_executable(stella-interpreter ${Stella_Syntax} ${SRCS})

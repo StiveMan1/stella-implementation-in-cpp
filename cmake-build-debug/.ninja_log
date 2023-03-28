@@ -1,0 +1,11 @@
+# ninja log v5
+19	384	7017077143274197	CMakeFiles/stella-interpreter.dir/src/Stella/Buffer.C.obj	60f7d6c9fd347c97
+386	1453	7017077153993501	CMakeFiles/stella-interpreter.dir/src/TypeCheck.cpp.obj	e6d487b16edd23d0
+27	1152	7017077150834663	CMakeFiles/stella-interpreter.dir/src/Interpret.cpp.obj	4a8bbb83077c593a
+11	1269	7017077152108547	CMakeFiles/stella-interpreter.dir/src/Stella/Lexer.C.obj	bcddc5689b502e3f
+1269	2400	7017077163479140	CMakeFiles/stella-interpreter.dir/src/VisitTypeCheck.cpp.obj	da16c3667fd391d8
+1155	1946	7017077158939836	CMakeFiles/stella-interpreter.dir/src/Eval.cpp.obj	2fdbae3a60af5b74
+38	2234	7017077161773348	CMakeFiles/stella-interpreter.dir/src/Stella/Printer.C.obj	17de9ca83b5b1716
+7	2827	7017077167739342	CMakeFiles/stella-interpreter.dir/src/Stella/Parser.C.obj	56cb1850c9984fd6
+1	4422	7017077183667613	CMakeFiles/stella-interpreter.dir/src/Stella/Absyn.C.obj	c026ee69bce3b2d7
+4423	5327	7017077192705527	stella-interpreter.exe	3b4dd7eb47c71cf1

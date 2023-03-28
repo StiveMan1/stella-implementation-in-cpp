@@ -208,6 +208,10 @@ DeclFun *DeclFun::clone() const
   return new DeclFun(*this);
 }
 
+StellaIdent DeclFun::getIdent() const
+{
+  return this->stellaident_;
+}
 
 
 /********************   DeclTypeAlias    ********************/
@@ -255,7 +259,10 @@ DeclTypeAlias *DeclTypeAlias::clone() const
   return new DeclTypeAlias(*this);
 }
 
-
+StellaIdent DeclTypeAlias::getIdent() const
+{
+  return this->stellaident_;
+}
 
 /********************   ALocalDecl    ********************/
 ALocalDecl::ALocalDecl(Decl *p1)
