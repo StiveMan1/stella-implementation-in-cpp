@@ -42,8 +42,19 @@ add_test(NAME applying-non-function-3 COMMAND stella-interpreter typecheck ../te
 add_test(NAME argument-type-mismatch-1 COMMAND stella-interpreter typecheck ../tests/ill-typed/argument-type-mismatch-1.stella)
 add_test(NAME argument-type-mismatch-2 COMMAND stella-interpreter typecheck ../tests/ill-typed/argument-type-mismatch-2.stella)
 add_test(NAME argument-type-mismatch-3 COMMAND stella-interpreter typecheck ../tests/ill-typed/argument-type-mismatch-3.stella)
+add_test(NAME bad-add-1 COMMAND stella-interpreter typecheck ../tests/ill-typed/bad-add-1.stella)
+add_test(NAME bad-cmp-1 COMMAND stella-interpreter typecheck ../tests/ill-typed/bad-cmp-1.stella)
+add_test(NAME bad-cmp-2 COMMAND stella-interpreter typecheck ../tests/ill-typed/bad-cmp-2.stella)
+add_test(NAME bad-cmp-3 COMMAND stella-interpreter typecheck ../tests/ill-typed/bad-cmp-3.stella)
+add_test(NAME bad-cmp-4 COMMAND stella-interpreter typecheck ../tests/ill-typed/bad-cmp-4.stella)
+add_test(NAME bad-cmp-5 COMMAND stella-interpreter typecheck ../tests/ill-typed/bad-cmp-5.stella)
+add_test(NAME bad-cmp-6 COMMAND stella-interpreter typecheck ../tests/ill-typed/bad-cmp-6.stella)
 add_test(NAME bad-if-1 COMMAND stella-interpreter typecheck ../tests/ill-typed/bad-if-1.stella)
 add_test(NAME bad-if-2 COMMAND stella-interpreter typecheck ../tests/ill-typed/bad-if-2.stella)
+add_test(NAME bad-logic-and-1 COMMAND stella-interpreter typecheck ../tests/ill-typed/bad-logic-and-1.stella)
+add_test(NAME bad-logic-not-1 COMMAND stella-interpreter typecheck ../tests/ill-typed/bad-logic-not-1.stella)
+add_test(NAME bad-logic-or-1 COMMAND stella-interpreter typecheck ../tests/ill-typed/bad-logic-or-1.stella)
+add_test(NAME bad-multiply-1 COMMAND stella-interpreter typecheck ../tests/ill-typed/bad-multiply-1.stella)
 add_test(NAME bad-succ-1 COMMAND stella-interpreter typecheck ../tests/ill-typed/bad-succ-1.stella)
 add_test(NAME bad-succ-2 COMMAND stella-interpreter typecheck ../tests/ill-typed/bad-succ-2.stella)
 add_test(NAME bad-succ-3 COMMAND stella-interpreter typecheck ../tests/ill-typed/bad-succ-3.stella)
@@ -61,8 +72,19 @@ set_tests_properties(
   argument-type-mismatch-1
   argument-type-mismatch-2
   argument-type-mismatch-3
+  bad-add-1
+  bad-cmp-1
+  bad-cmp-2
+  bad-cmp-3
+  bad-cmp-4
+  bad-cmp-5
+  bad-cmp-6
   bad-if-1
   bad-if-2
+  bad-logic-and-1
+  bad-logic-not-1
+  bad-logic-or-1
+  bad-multiply-1
   bad-succ-1
   bad-succ-2
   bad-succ-3
@@ -72,7 +94,9 @@ set_tests_properties(
   PROPERTIES WILL_FAIL TRUE)
 
 add_test(NAME factorial COMMAND stella-interpreter typecheck ../tests/well-typed/factorial.stella)
-add_test(NAME increment_twice COMMAND stella-interpreter typecheck ../tests/well-typed/increment_twice.stella)
 add_test(NAME higher-order-1 COMMAND stella-interpreter typecheck ../tests/well-typed/higher-order-1.stella)
+add_test(NAME increment_twice COMMAND stella-interpreter typecheck ../tests/well-typed/increment_twice.stella)
+add_test(NAME list-op COMMAND stella-interpreter typecheck ../tests/well-typed/list-op.stella)
+add_test(NAME logic-cmp COMMAND stella-interpreter typecheck ../tests/well-typed/logic-cmp.stella)
 add_test(NAME logical-operators COMMAND stella-interpreter typecheck ../tests/well-typed/logical-operators.stella)
 add_test(NAME squares COMMAND stella-interpreter typecheck ../tests/well-typed/squares.stella)

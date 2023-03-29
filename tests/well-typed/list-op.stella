@@ -5,7 +5,7 @@ fn list_construct(n : Nat) -> [Nat]{
 }
 
 fn main(n : Nat) -> Nat {
-   return let m = list_const(n) in
+   return let m = list_construct(n) in
    if List::isempty(m) then (
        List::head(m) + List::tail(m)
    ) else 0;
