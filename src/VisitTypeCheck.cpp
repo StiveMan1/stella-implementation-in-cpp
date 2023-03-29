@@ -38,28 +38,29 @@ namespace Stella {
         visitStellaIdent(decl_fun->stellaident_);
         if (decl_fun->listparamdecl_)
             decl_fun->listparamdecl_->accept(this);
-        ListType *type_list = _type_list;
+        ListType *type_list = _type_list; // Save ListTypes from listparamdecl_
         if (decl_fun->returntype_)
             decl_fun->returntype_->accept(this);
-        Type *retType = _type;
+        Type *retType = _type; // Save Type from returntype_
         if (decl_fun->throwtype_)
             decl_fun->throwtype_->accept(this);
 
+        // Inserting DeclFun witch defined
         _state->insertIdentDecl(decl_fun->stellaident_, new TypeFun(type_list, retType));
 
-        _state->appendScope();
+        _state->appendScope();  // Open scope
         if (decl_fun->listdecl_)
             decl_fun->listdecl_->accept(this);
         if (decl_fun->expr_)
             decl_fun->expr_->accept(this);
-        if(!_type->cmp(retType)){
+        if (!_type->cmp(retType)) { // Compare retType and expr_ types
             fprintf(stderr, "error: %d,%d: semantic error\n", decl_fun->line_number, decl_fun->char_number);
             exit(1);
         }
-        _state->removeScope();
+        _state->removeScope();  // Close scope
 
-        _type = new TypeFun(type_list, _type);
-        _state->insertIdentDecl(decl_fun->stellaident_, _type);
+        _type = new TypeFun(type_list, _type); // Return new type DeclFun
+        _state->insertIdentDecl(decl_fun->stellaident_, _type); // Insert new DeclFun type (it can be changed if returntype_ does not exist)
     }
 
     void VisitTypeCheck::visitDeclTypeAlias(DeclTypeAlias *decl_type_alias) {
@@ -69,7 +70,7 @@ namespace Stella {
         if (decl_type_alias->type_)
             decl_type_alias->type_->accept(this);
 
-        _state->insertIdentType(decl_type_alias->stellaident_, _type);
+        _state->insertIdentType(decl_type_alias->stellaident_, _type); // Insert new DeclTypeAlias type
     }
 
     void VisitTypeCheck::visitALocalDecl(ALocalDecl *a_local_decl) {
@@ -89,12 +90,12 @@ namespace Stella {
         visitStellaIdent(a_param_decl->stellaident_);
         if (a_param_decl->type_)
             a_param_decl->type_->accept(this);
-        _state->insertIdentDecl(a_param_decl->stellaident_, _type);
+        _state->insertIdentDecl(a_param_decl->stellaident_, _type); // Insert new AParamDecl type
     }
 
     void VisitTypeCheck::visitNoReturnType(NoReturnType *no_return_type) {
         /* Code For NoReturnType Goes Here */
-        _type = nullptr;
+        _type = nullptr;  // Return null type
     }
 
     void VisitTypeCheck::visitSomeReturnType(SomeReturnType *some_return_type) {
@@ -120,17 +121,17 @@ namespace Stella {
 
         if (if_->expr_1)
             if_->expr_1->accept(this);
-        if(!_type->cmp(new TypeBool())){
+        if (!_type->cmp(new TypeBool())) { // Compare _type and TypeBool types
             fprintf(stderr, "error: %d,%d: semantic error\n", if_->line_number, if_->char_number);
             exit(1);
         }
         if (if_->expr_2)
             if_->expr_2->accept(this);
-        Type *type1 = _type;
+        Type *type1 = _type; // Save type from expr_2
         if (if_->expr_3)
             if_->expr_3->accept(this);
-        Type *type2 = _type;
-        if(!type1->cmp(type2)){
+        Type *type2 = _type; // Save type from expr_3
+        if (!type1->cmp(type2)) { // Compare type1 and type2 types
             fprintf(stderr, "error: %d,%d: semantic error\n", if_->line_number, if_->char_number);
             exit(1);
         }
@@ -138,14 +139,14 @@ namespace Stella {
 
     void VisitTypeCheck::visitLet(Let *let) {
         /* Code For Let Goes Here */
-        _state->appendScope();
+        _state->appendScope();  // Open scope
         visitStellaIdent(let->stellaident_);
         if (let->expr_1)
             let->expr_1->accept(this);
-        _state->insertIdentDecl(let->stellaident_, _type);
+        _state->insertIdentDecl(let->stellaident_, _type); // Insert new Let type
         if (let->expr_2)
             let->expr_2->accept(this);
-        _state->removeScope();
+        _state->removeScope();  // Close scope
     }
 
     void VisitTypeCheck::visitLessThan(LessThan *less_than) {
@@ -153,15 +154,15 @@ namespace Stella {
 
         if (less_than->expr_1)
             less_than->expr_1->accept(this);
-        Type *type1 = _type;
+        Type *type1 = _type; // Save type from expr_1
         if (less_than->expr_2)
             less_than->expr_2->accept(this);
-        Type *type2 = _type;
-        if(!type1->cmp(new TypeNat()) || !type2->cmp(new TypeNat())){
+        Type *type2 = _type; // Save type from expr_2
+        if (!type1->cmp(new TypeNat()) || !type2->cmp(new TypeNat())) { // Compare type1 and type2 and TypeNat types
             fprintf(stderr, "error: %d,%d: semantic error\n", less_than->line_number, less_than->char_number);
             exit(1);
         }
-        _type = new TypeBool();
+        _type = new TypeBool(); // Return new type Bool
     }
 
     void VisitTypeCheck::visitLessThanOrEqual(LessThanOrEqual *less_than_or_equal) {
@@ -169,15 +170,16 @@ namespace Stella {
 
         if (less_than_or_equal->expr_1)
             less_than_or_equal->expr_1->accept(this);
-        Type *type1 = _type;
+        Type *type1 = _type; // Save type from expr_1
         if (less_than_or_equal->expr_2)
             less_than_or_equal->expr_2->accept(this);
-        Type *type2 = _type;
-        if(!type1->cmp(new TypeNat()) || !type2->cmp(new TypeNat())){
-            fprintf(stderr, "error: %d,%d: semantic error\n", less_than_or_equal->line_number, less_than_or_equal->char_number);
+        Type *type2 = _type; // Save type from expr_2
+        if (!type1->cmp(new TypeNat()) || !type2->cmp(new TypeNat())) { // Compare type1 and type2 and TypeNat types
+            fprintf(stderr, "error: %d,%d: semantic error\n", less_than_or_equal->line_number,
+                    less_than_or_equal->char_number);
             exit(1);
         }
-        _type = new TypeBool();
+        _type = new TypeBool(); // Return new type Bool
     }
 
     void VisitTypeCheck::visitGreaterThan(GreaterThan *greater_than) {
@@ -185,15 +187,15 @@ namespace Stella {
 
         if (greater_than->expr_1)
             greater_than->expr_1->accept(this);
-        Type *type1 = _type;
+        Type *type1 = _type; // Save type from expr_1
         if (greater_than->expr_2)
             greater_than->expr_2->accept(this);
-        Type *type2 = _type;
-        if(!type1->cmp(new TypeNat()) || !type2->cmp(new TypeNat())){
+        Type *type2 = _type; // Save type from expr_2
+        if (!type1->cmp(new TypeNat()) || !type2->cmp(new TypeNat())) { // Compare type1 and type2 and TypeNat types
             fprintf(stderr, "error: %d,%d: semantic error\n", greater_than->line_number, greater_than->char_number);
             exit(1);
         }
-        _type = new TypeBool();
+        _type = new TypeBool(); // Return new type Bool
     }
 
     void VisitTypeCheck::visitGreaterThanOrEqual(GreaterThanOrEqual *greater_than_or_equal) {
@@ -201,15 +203,16 @@ namespace Stella {
 
         if (greater_than_or_equal->expr_1)
             greater_than_or_equal->expr_1->accept(this);
-        Type *type1 = _type;
+        Type *type1 = _type; // Save type from expr_1
         if (greater_than_or_equal->expr_2)
             greater_than_or_equal->expr_2->accept(this);
-        Type *type2 = _type;
-        if(!type1->cmp(new TypeNat()) || !type2->cmp(new TypeNat())){
-            fprintf(stderr, "error: %d,%d: semantic error\n", greater_than_or_equal->line_number, greater_than_or_equal->char_number);
+        Type *type2 = _type; // Save type from expr_2
+        if (!type1->cmp(new TypeNat()) || !type2->cmp(new TypeNat())) { // Compare type1 and type2 and TypeNat types
+            fprintf(stderr, "error: %d,%d: semantic error\n", greater_than_or_equal->line_number,
+                    greater_than_or_equal->char_number);
             exit(1);
         }
-        _type = new TypeBool();
+        _type = new TypeBool(); // Return new type Bool
     }
 
     void VisitTypeCheck::visitEqual(Equal *equal) {
@@ -217,15 +220,15 @@ namespace Stella {
 
         if (equal->expr_1)
             equal->expr_1->accept(this);
-        Type *type1 = _type;
+        Type *type1 = _type; // Save type from expr_1
         if (equal->expr_2)
             equal->expr_2->accept(this);
-        Type *type2 = _type;
-        if(!type1->cmp(new TypeNat()) || !type2->cmp(new TypeNat())){
+        Type *type2 = _type; // Save type from expr_2
+        if (!type1->cmp(new TypeNat()) || !type2->cmp(new TypeNat())) { // Compare type1 and type2 and TypeNat types
             fprintf(stderr, "error: %d,%d: semantic error\n", equal->line_number, equal->char_number);
             exit(1);
         }
-        _type = new TypeBool();
+        _type = new TypeBool(); // Return new type Bool
     }
 
     void VisitTypeCheck::visitNotEqual(NotEqual *not_equal) {
@@ -233,15 +236,15 @@ namespace Stella {
 
         if (not_equal->expr_1)
             not_equal->expr_1->accept(this);
-        Type *type1 = _type;
+        Type *type1 = _type; // Save type from expr_1
         if (not_equal->expr_2)
             not_equal->expr_2->accept(this);
-        Type *type2 = _type;
-        if(!type1->cmp(new TypeNat()) || !type2->cmp(new TypeNat())){
+        Type *type2 = _type; // Save type from expr_2
+        if (!type1->cmp(new TypeNat()) || !type2->cmp(new TypeNat())) { // Compare type1 and type2 and TypeNat types
             fprintf(stderr, "error: %d,%d: semantic error\n", not_equal->line_number, not_equal->char_number);
             exit(1);
         }
-        _type = new TypeBool();
+        _type = new TypeBool(); // Return new type Bool
     }
 
     void VisitTypeCheck::visitTypeAsc(TypeAsc *type_asc) {
@@ -249,11 +252,11 @@ namespace Stella {
 
         if (type_asc->expr_)
             type_asc->expr_->accept(this);
-        Type *type1 = _type;
+        Type *type1 = _type; // Save type from expr_
         if (type_asc->type_)
             type_asc->type_->accept(this);
-        Type *type2 = _type;
-        if(!type1->cmp(type2)){
+        Type *type2 = _type; // Save type from type_
+        if (!type1->cmp(type2)) { // Compare type1 and type2 types
             fprintf(stderr, "error: %d,%d: semantic error\n", type_asc->line_number, type_asc->char_number);
             exit(1);
         }
@@ -261,14 +264,14 @@ namespace Stella {
 
     void VisitTypeCheck::visitAbstraction(Abstraction *abstraction) {
         /* Code For Abstraction Goes Here */
-        _state->appendScope();
+        _state->appendScope();  // Open scope
         if (abstraction->listparamdecl_)
             abstraction->listparamdecl_->accept(this);
-        ListType *type_list = _type_list;
+        ListType *type_list = _type_list; // Save type_list from listparamdecl_
         if (abstraction->expr_)
             abstraction->expr_->accept(this);
-        _state->removeScope();
-        _type = new TypeFun(type_list, _type);
+        _state->removeScope();  // Close scope
+        _type = new TypeFun(type_list, _type); // Return new type TypeFun
     }
 
     void VisitTypeCheck::visitTuple(Tuple *tuple) {
@@ -276,7 +279,7 @@ namespace Stella {
 
         if (tuple->listexpr_)
             tuple->listexpr_->accept(this);
-        _type = new TypeTuple(_type_list);
+        _type = new TypeTuple(_type_list); // Return new type TypeTuple
     }
 
     void VisitTypeCheck::visitList(List *list) {
@@ -285,14 +288,14 @@ namespace Stella {
         if (list->listexpr_)
             list->listexpr_->accept(this);
         _type = nullptr;
-        for (auto & i : *_type_list) {
-            if(!i->cmp(_type)){
+        for (auto &i: *_type_list) {
+            if (!i->cmp(_type)) { // Compare i and _type types
                 fprintf(stderr, "error: %d,%d: semantic error\n", list->line_number, list->char_number);
                 exit(1);
             }
             _type = i;
         }
-        _type = new TypeList(_type);
+        _type = new TypeList(_type); // Return new type TypeList
     }
 
     void VisitTypeCheck::visitAdd(Add *add) {
@@ -300,11 +303,11 @@ namespace Stella {
 
         if (add->expr_1)
             add->expr_1->accept(this);
-        Type *type1 = _type;
+        Type *type1 = _type; // Save type from expr_1
         if (add->expr_2)
             add->expr_2->accept(this);
-        Type *type2 = _type;
-        if(!type1->cmp(new TypeNat()) || !type2->cmp(new TypeNat())){
+        Type *type2 = _type; // Save type from expr_2
+        if (!type1->cmp(new TypeNat()) || !type2->cmp(new TypeNat())) { // Compare type1 and type2 and TypeNat types
             fprintf(stderr, "error: %d,%d: semantic error\n", add->line_number, add->char_number);
             exit(1);
         }
@@ -315,11 +318,11 @@ namespace Stella {
 
         if (logic_or->expr_1)
             logic_or->expr_1->accept(this);
-        Type *type1 = _type;
+        Type *type1 = _type; // Save type from expr_1
         if (logic_or->expr_2)
             logic_or->expr_2->accept(this);
-        Type *type2 = _type;
-        if(!type1->cmp(new TypeBool()) || !type2->cmp(new TypeBool())){
+        Type *type2 = _type; // Save type from expr_2
+        if (!type1->cmp(new TypeBool()) || !type2->cmp(new TypeBool())) { // Compare type1 and type2 and TypeNat types
             fprintf(stderr, "error: %d,%d: semantic error\n", logic_or->line_number, logic_or->char_number);
             exit(1);
         }
@@ -330,11 +333,11 @@ namespace Stella {
 
         if (multiply->expr_1)
             multiply->expr_1->accept(this);
-        Type *type1 = _type;
+        Type *type1 = _type; // Save type from expr_1
         if (multiply->expr_2)
             multiply->expr_2->accept(this);
-        Type *type2 = _type;
-        if(!type1->cmp(new TypeNat()) || !type2->cmp(new TypeNat())){
+        Type *type2 = _type; // Save type from expr_2
+        if (!type1->cmp(new TypeNat()) || !type2->cmp(new TypeNat())) { // Compare type1 and type2 and TypeNat types
             fprintf(stderr, "error: %d,%d: semantic error\n", multiply->line_number, multiply->char_number);
             exit(1);
         }
@@ -345,11 +348,11 @@ namespace Stella {
 
         if (logic_and->expr_1)
             logic_and->expr_1->accept(this);
-        Type *type1 = _type;
+        Type *type1 = _type; // Save type from expr_1
         if (logic_and->expr_2)
             logic_and->expr_2->accept(this);
-        Type *type2 = _type;
-        if(!type1->cmp(new TypeBool()) || !type2->cmp(new TypeBool())){
+        Type *type2 = _type; // Save type from expr_2
+        if (!type1->cmp(new TypeBool()) || !type2->cmp(new TypeBool())) { // Compare type1 and type2 and TypeBool types
             fprintf(stderr, "error: %d,%d: semantic error\n", logic_and->line_number, logic_and->char_number);
             exit(1);
         }
@@ -360,19 +363,19 @@ namespace Stella {
 
         if (application->expr_)
             application->expr_->accept(this);
-        if(!_type->cmp(new TypeFun(nullptr, nullptr))){
+        if (!_type->cmp(new TypeFun(nullptr, nullptr))) { // Compare _type and TypeFun types
             fprintf(stderr, "error: %d,%d: semantic error\n", application->line_number, application->char_number);
             exit(1);
         }
-        auto *func = dynamic_cast<TypeFun*>(_type);
+        auto *func = dynamic_cast<TypeFun *>(_type); // Save type from expr_ as TypeFun
         if (application->listexpr_)
             application->listexpr_->accept(this);
 
-        if(!func->listtype_->cmp(_type_list)){
+        if (!func->listtype_->cmp(_type_list)) { // Compare func->listtype_ and _type_list types
             fprintf(stderr, "error: %d,%d: semantic error\n", application->line_number, application->char_number);
             exit(1);
         }
-        _type = func->type_;
+        _type = func->type_; // Return returning type from function
     }
 
     void VisitTypeCheck::visitConsList(ConsList *cons_list) {
@@ -390,11 +393,11 @@ namespace Stella {
         if (head->expr_)
             head->expr_->accept(this);
 
-        if(!_type->cmp(new TypeList(nullptr))){
+        if (!_type->cmp(new TypeList(nullptr))) { // Compare _type and TypeList types
             fprintf(stderr, "error: %d,%d: semantic error\n", head->line_number, head->char_number);
             exit(1);
         }
-        _type = dynamic_cast<TypeList*>(_type)->type_;
+        _type = dynamic_cast<TypeList *>(_type)->type_; // Return type of list element
     }
 
     void VisitTypeCheck::visitIsEmpty(IsEmpty *is_empty) {
@@ -403,11 +406,11 @@ namespace Stella {
         if (is_empty->expr_)
             is_empty->expr_->accept(this);
 
-        if(!_type->cmp(new TypeList(nullptr))){
+        if (!_type->cmp(new TypeList(nullptr))) { // Compare _type and TypeList types
             fprintf(stderr, "error: %d,%d: semantic error\n", is_empty->line_number, is_empty->char_number);
             exit(1);
         }
-        _type = new TypeBool();
+        _type = new TypeBool(); // Return new type TypeBool
     }
 
     void VisitTypeCheck::visitTail(Tail *tail) {
@@ -416,11 +419,11 @@ namespace Stella {
         if (tail->expr_)
             tail->expr_->accept(this);
 
-        if(!_type->cmp(new TypeList(nullptr))){
+        if (!_type->cmp(new TypeList(nullptr))) { // Compare _type and TypeList types
             fprintf(stderr, "error: %d,%d: semantic error\n", tail->line_number, tail->char_number);
             exit(1);
         }
-        _type = dynamic_cast<TypeList*>(_type)->type_;
+        _type = dynamic_cast<TypeList *>(_type)->type_; // Return type of list element
     }
 
     void VisitTypeCheck::visitSucc(Succ *succ) {
@@ -429,7 +432,7 @@ namespace Stella {
         if (succ->expr_)
             succ->expr_->accept(this);
 
-        if(!_type->cmp(new TypeNat())){
+        if (!_type->cmp(new TypeNat())) { // Compare _type and TypeNat types
             fprintf(stderr, "error: %d,%d: semantic error\n", succ->line_number, succ->char_number);
             exit(1);
         }
@@ -441,7 +444,7 @@ namespace Stella {
         if (logic_not->expr_)
             logic_not->expr_->accept(this);
 
-        if(!_type->cmp(new TypeBool())){
+        if (!_type->cmp(new TypeBool())) { // Compare _type and TypeBool types
             fprintf(stderr, "error: %d,%d: semantic error\n", logic_not->line_number, logic_not->char_number);
             exit(1);
         }
@@ -459,11 +462,11 @@ namespace Stella {
 
         if (is_zero->expr_)
             is_zero->expr_->accept(this);
-        if(!_type->cmp(new TypeNat())){
+        if (!_type->cmp(new TypeNat())) { // Compare _type and TypeNat types
             fprintf(stderr, "error: %d,%d: semantic error\n", is_zero->line_number, is_zero->char_number);
             exit(1);
         }
-        _type = new TypeBool();
+        _type = new TypeBool(); // Return new type TypeBool
     }
 
     void VisitTypeCheck::visitFix(Fix *fix) {
@@ -478,16 +481,16 @@ namespace Stella {
 
         if (nat_rec->expr_1)
             nat_rec->expr_1->accept(this);
-        auto *type_list1 = new ListType();
+        auto *type_list1 = new ListType(); // Save type from expr_1 as ListType
         type_list1->push_back(_type);
         if (nat_rec->expr_2)
             nat_rec->expr_2->accept(this);
-        auto *type_list2 = new ListType();
+        auto *type_list2 = new ListType(); // Save type from expr_2 as ListType
         type_list2->push_back(_type);
         if (nat_rec->expr_3)
             nat_rec->expr_3->accept(this);
-        Type *type3 = _type;
-        if(!type3->cmp(new TypeFun(type_list1, new TypeFun(type_list2, nullptr)))){
+        Type *type3 = _type; // Save type from expr_3
+        if (!type3->cmp(new TypeFun(type_list1, new TypeFun(type_list2, nullptr)))) {  // Compare type3 and TypeFun types
             fprintf(stderr, "error: %d,%d: semantic error\n", nat_rec->line_number, nat_rec->char_number);
             exit(1);
         }
@@ -517,38 +520,38 @@ namespace Stella {
 
         if (dot_tuple->expr_)
             dot_tuple->expr_->accept(this);
-        if(!_type->cmp(new TypeTuple(nullptr))){
+        if (!_type->cmp(new TypeTuple(nullptr))) { // Compare _type and TypeTuple types
             fprintf(stderr, "error: %d,%d: semantic error\n", dot_tuple->line_number, dot_tuple->char_number);
             exit(1);
         }
-        auto *tuple = dynamic_cast<TypeTuple*>(_type);
-        if(tuple->listtype_->size() < dot_tuple->integer_){
+        auto *tuple = dynamic_cast<TypeTuple *>(_type);
+        if (tuple->listtype_->size() < dot_tuple->integer_) { // Check is tuple size less then integer
             fprintf(stderr, "error: %d,%d: semantic error\n", dot_tuple->line_number, dot_tuple->char_number);
             exit(1);
         }
-        _type = tuple->listtype_->at(dot_tuple->integer_);
+        _type = tuple->listtype_->at(dot_tuple->integer_); // Get type from tuple
     }
 
     void VisitTypeCheck::visitConstTrue(ConstTrue *const_true) {
         /* Code For ConstTrue Goes Here */
-        _type = new TypeBool();
+        _type = new TypeBool(); // Return new type TypeBool
     }
 
     void VisitTypeCheck::visitConstFalse(ConstFalse *const_false) {
         /* Code For ConstFalse Goes Here */
-        _type = new TypeBool();
+        _type = new TypeBool(); // Return new type TypeBool
     }
 
     void VisitTypeCheck::visitConstInt(ConstInt *const_int) {
         /* Code For ConstInt Goes Here */
-        _type = new TypeNat();
+        _type = new TypeNat(); // Return new type TypeNat
     }
 
     void VisitTypeCheck::visitVar(Var *var) {
         /* Code For Var Goes Here */
 
         visitStellaIdent(var->stellaident_);
-        _type = _state->findIdentDecl(var->stellaident_);
+        _type = _state->findIdentDecl(var->stellaident_); // Return type declared by identifier
     }
 
     void VisitTypeCheck::visitTypeFun(TypeFun *type_fun) {
@@ -556,10 +559,10 @@ namespace Stella {
 
         if (type_fun->listtype_)
             type_fun->listtype_->accept(this);
-        ListType *type_list = _type_list;
+        ListType *type_list = _type_list; // Save type_list from listtype_
         if (type_fun->type_)
             type_fun->type_->accept(this);
-        _type = new TypeFun(type_list, _type);
+        _type = new TypeFun(type_list, _type); // Return new type TypeFun
     }
 
     void VisitTypeCheck::visitTypeSum(TypeSum *type_sum) {
@@ -567,11 +570,11 @@ namespace Stella {
 
         if (type_sum->type_1)
             type_sum->type_1->accept(this);
-        Type *type1 = _type;
+        Type *type1 = _type; // Save type from type_1
         if (type_sum->type_2)
             type_sum->type_2->accept(this);
-        Type *type2 = _type;
-        _type = new TypeSum(type1, type2);
+        Type *type2 = _type; // Save type from type_2
+        _type = new TypeSum(type1, type2); // Return new type TypeSum
     }
 
     void VisitTypeCheck::visitTypeTuple(TypeTuple *type_tuple) {
@@ -579,7 +582,7 @@ namespace Stella {
 
         if (type_tuple->listtype_)
             type_tuple->listtype_->accept(this);
-        _type = new TypeTuple(_type_list);
+        _type = new TypeTuple(_type_list); // Return new type TypeTuple
     }
 
     void VisitTypeCheck::visitTypeList(TypeList *type_list) {
@@ -587,29 +590,29 @@ namespace Stella {
 
         if (type_list->type_)
             type_list->type_->accept(this);
-        _type = new TypeList(_type);
+        _type = new TypeList(_type); // Return new type TypeList
     }
 
     void VisitTypeCheck::visitTypeBool(TypeBool *type_bool) {
         /* Code For TypeBool Goes Here */
-        _type = type_bool;
+        _type = type_bool; // Return type_bool
     }
 
     void VisitTypeCheck::visitTypeNat(TypeNat *type_nat) {
         /* Code For TypeNat Goes Here */
-        _type = type_nat;
+        _type = type_nat; // Return type_nat
     }
 
     void VisitTypeCheck::visitTypeUnit(TypeUnit *type_unit) {
         /* Code For TypeUnit Goes Here */
-        _type = type_unit;
+        _type = type_unit; // Return type_unit
     }
 
     void VisitTypeCheck::visitTypeVar(TypeVar *type_var) {
         /* Code For TypeVar Goes Here */
 
         visitStellaIdent(type_var->stellaident_);
-        _type = _state->findIdentType(type_var->stellaident_);
+        _type = _state->findIdentType(type_var->stellaident_); // Return type declared by identifier
     }
 
     void VisitTypeCheck::visitATyping(ATyping *a_typing) {
@@ -622,58 +625,58 @@ namespace Stella {
     }
 
     void VisitTypeCheck::visitListStellaIdent(ListStellaIdent *list_stella_ident) {
-        for (auto & i : *list_stella_ident) {
+        for (auto &i: *list_stella_ident) {
             visitStellaIdent(i);
         }
     }
 
     void VisitTypeCheck::visitListDecl(ListDecl *list_decl) {
-        for (auto & i : *list_decl) {
+        for (auto &i: *list_decl) {
             i->accept(this);
         }
     }
 
     void VisitTypeCheck::visitListLocalDecl(ListLocalDecl *list_local_decl) {
-        for (auto & i : *list_local_decl) {
+        for (auto &i: *list_local_decl) {
             i->accept(this);
         }
     }
 
     void VisitTypeCheck::visitListAnnotation(ListAnnotation *list_annotation) {
-        for (auto & i : *list_annotation) {
+        for (auto &i: *list_annotation) {
             i->accept(this);
         }
     }
 
     void VisitTypeCheck::visitListParamDecl(ListParamDecl *list_param_decl) {
         auto *type_list = new ListType();
-        for (auto & i : *list_param_decl) {
+        for (auto &i: *list_param_decl) {
             i->accept(this);
             type_list->push_back(_type);
         }
-        _type_list = type_list;
+        _type_list = type_list; // Return new type ListType
     }
 
     void VisitTypeCheck::visitListExpr(ListExpr *list_expr) {
         auto *type_list = new ListType();
-        for (auto & i : *list_expr) {
+        for (auto &i: *list_expr) {
             i->accept(this);
             type_list->push_back(_type);
         }
-        _type_list = type_list;
+        _type_list = type_list; // Return new type ListType
     }
 
     void VisitTypeCheck::visitListType(ListType *list_type) {
         auto *type_list = new ListType();
-        for (auto & i : *list_type) {
+        for (auto &i: *list_type) {
             i->accept(this);
             type_list->push_back(_type);
         }
-        _type_list = type_list;
+        _type_list = type_list; // Return new type ListType
     }
 
     void VisitTypeCheck::visitListRecordFieldType(ListRecordFieldType *list_record_field_type) {
-        for (auto & i : *list_record_field_type) {
+        for (auto &i: *list_record_field_type) {
             i->accept(this);
         }
     }
@@ -915,43 +918,43 @@ namespace Stella {
     }
 
     void VisitTypeCheck::visitListExtensionName(ListExtensionName *list_extension_name) {
-        for (auto & i : *list_extension_name) {
+        for (auto &i: *list_extension_name) {
             visitExtensionName(i);
         }
     }
 
     void VisitTypeCheck::visitListExtension(ListExtension *list_extension) {
-        for (auto & i : *list_extension) {
+        for (auto &i: *list_extension) {
             i->accept(this);
         }
     }
 
     void VisitTypeCheck::visitListMatchCase(ListMatchCase *list_match_case) {
-        for (auto & i : *list_match_case) {
+        for (auto &i: *list_match_case) {
             i->accept(this);
         }
     }
 
     void VisitTypeCheck::visitListPattern(ListPattern *list_pattern) {
-        for (auto & i : *list_pattern) {
+        for (auto &i: *list_pattern) {
             i->accept(this);
         }
     }
 
     void VisitTypeCheck::visitListLabelledPattern(ListLabelledPattern *list_labelled_pattern) {
-        for (auto & i : *list_labelled_pattern) {
+        for (auto &i: *list_labelled_pattern) {
             i->accept(this);
         }
     }
 
     void VisitTypeCheck::visitListBinding(ListBinding *list_binding) {
-        for (auto & i : *list_binding) {
+        for (auto &i: *list_binding) {
             i->accept(this);
         }
     }
 
     void VisitTypeCheck::visitListVariantFieldType(ListVariantFieldType *list_variant_field_type) {
-        for (auto & i : *list_variant_field_type) {
+        for (auto &i: *list_variant_field_type) {
             i->accept(this);
         }
     }

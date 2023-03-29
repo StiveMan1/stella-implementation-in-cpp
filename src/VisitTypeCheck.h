@@ -8,13 +8,12 @@ namespace Stella {
     class VisitTypeCheck : public Visitor {
     private:
         StateTypeChecker *_state = nullptr;
-        Type *_type = nullptr;
-        ListType *_type_list = nullptr;
+        Type *_type = nullptr; // To get Type from expression
+        ListType *_type_list = nullptr; // To get ListTypes from expression
     public:
 
         explicit VisitTypeCheck(StateTypeChecker *state) {
             _state = state;
-            _type = nullptr;
         }
 
         void visitProgram(Program *p);

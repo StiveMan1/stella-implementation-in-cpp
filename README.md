@@ -55,12 +55,11 @@ This will run the tests specified in [`CMakeLists.txt`](CMakeLists.txt).
 
 [Interpret.cpp](src/Interpret.cpp) is the main file that contains the logic for reading a program and its arguments (if you run an interpreter).
 
-[`TypeCheck.h`](src/TypeCheck.h) and [`TypeCheck.cpp`](src/TypeCheck.cpp) files assume the content of the type checker logic. Currently they contain only prototypes of the functions for further implementation.
+[`TypeCheck.h`](src/TypeCheck.h) and [`TypeCheck.cpp`](src/TypeCheck.cpp) files assume the content of the type checker logic. Currently, they contain only prototypes of the functions for further implementation.
 The input program from the interpreter is passed directly to the `typecheckProgram` function.
 
 [`Eval.h`](src/Eval.cpp) and [`Eval.cpp`](src/Eval.cpp) files similarly imply the logic of interpreting the program. They also contain only prototypes. The input program (read from the file) and the argument (entered after the interpreter starts) are passed directly to the `evalMainWith` function.
 
-### How to develop
+Changed all Types in [`Absyn.C`](src/Stella/Absyn.C) and inside [`Absyn.H`](src/Stella/Absyn.H) to easy compare all Types with calling function `cmp(Type *)` as `type1->cmp(type2)`
 
-You must extend the existing files to perform the required actions.
-If you need to add additional files, don't forget to add them to the [CMake file](CMakeLists.txt) (in the SRCS variable) to include them in the build process. 
+For work with current state inside `TypeCheck` developed class `StateTypeChecker` where contains two vectors for saving new types and named variables and their types.
