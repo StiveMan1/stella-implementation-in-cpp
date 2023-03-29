@@ -374,6 +374,7 @@ class OptionalTyping : public Visitable
 {
 public:
   virtual OptionalTyping *clone() const = 0;
+  virtual bool cmp(OptionalTyping *type) const = 0;
   int line_number, char_number;
 };
 
@@ -416,6 +417,7 @@ class Type : public Visitable
 {
 public:
   virtual Type *clone() const = 0;
+  virtual bool cmp(Type *type) const = 0;
   int line_number, char_number;
 };
 
@@ -423,6 +425,7 @@ class VariantFieldType : public Visitable
 {
 public:
   virtual VariantFieldType *clone() const = 0;
+  virtual bool cmp(VariantFieldType *type) const = 0;
   int line_number, char_number;
 };
 
@@ -430,6 +433,7 @@ class RecordFieldType : public Visitable
 {
 public:
   virtual RecordFieldType *clone() const = 0;
+  virtual bool cmp(RecordFieldType *type) const = 0;
   int line_number, char_number;
 };
 
@@ -1199,6 +1203,7 @@ public:
   ~NoTyping();
   virtual void accept(Visitor *v);
   virtual NoTyping *clone() const;
+  virtual bool cmp(OptionalTyping *type) const;
   void swap(NoTyping &);
 };
 
@@ -1213,6 +1218,7 @@ public:
   ~SomeTyping();
   virtual void accept(Visitor *v);
   virtual SomeTyping *clone() const;
+  virtual bool cmp(OptionalTyping *type) const;
   void swap(SomeTyping &);
 };
 
@@ -1452,6 +1458,7 @@ public:
   ~TypeFun();
   virtual void accept(Visitor *v);
   virtual TypeFun *clone() const;
+  virtual bool cmp(Type *type) const;
   void swap(TypeFun &);
 };
 
@@ -1467,6 +1474,7 @@ public:
   ~TypeRec();
   virtual void accept(Visitor *v);
   virtual TypeRec *clone() const;
+  virtual bool cmp(Type *type) const;
   void swap(TypeRec &);
 };
 
@@ -1482,6 +1490,7 @@ public:
   ~TypeSum();
   virtual void accept(Visitor *v);
   virtual TypeSum *clone() const;
+  virtual bool cmp(Type *type) const;
   void swap(TypeSum &);
 };
 
@@ -1496,6 +1505,7 @@ public:
   ~TypeTuple();
   virtual void accept(Visitor *v);
   virtual TypeTuple *clone() const;
+  virtual bool cmp(Type *type) const;
   void swap(TypeTuple &);
 };
 
@@ -1510,6 +1520,7 @@ public:
   ~TypeRecord();
   virtual void accept(Visitor *v);
   virtual TypeRecord *clone() const;
+  virtual bool cmp(Type *type) const;
   void swap(TypeRecord &);
 };
 
@@ -1524,6 +1535,7 @@ public:
   ~TypeVariant();
   virtual void accept(Visitor *v);
   virtual TypeVariant *clone() const;
+  virtual bool cmp(Type *type) const;
   void swap(TypeVariant &);
 };
 
@@ -1538,6 +1550,7 @@ public:
   ~TypeList();
   virtual void accept(Visitor *v);
   virtual TypeList *clone() const;
+  virtual bool cmp(Type *type) const;
   void swap(TypeList &);
 };
 
@@ -1551,6 +1564,7 @@ public:
   ~TypeBool();
   virtual void accept(Visitor *v);
   virtual TypeBool *clone() const;
+  virtual bool cmp(Type *type) const;
   void swap(TypeBool &);
 };
 
@@ -1564,6 +1578,7 @@ public:
   ~TypeNat();
   virtual void accept(Visitor *v);
   virtual TypeNat *clone() const;
+  virtual bool cmp(Type *type) const;
   void swap(TypeNat &);
 };
 
@@ -1577,6 +1592,7 @@ public:
   ~TypeUnit();
   virtual void accept(Visitor *v);
   virtual TypeUnit *clone() const;
+  virtual bool cmp(Type *type) const;
   void swap(TypeUnit &);
 };
 
@@ -1591,6 +1607,7 @@ public:
   ~TypeVar();
   virtual void accept(Visitor *v);
   virtual TypeVar *clone() const;
+  virtual bool cmp(Type *type) const;
   void swap(TypeVar &);
 };
 
@@ -1606,6 +1623,7 @@ public:
   ~AVariantFieldType();
   virtual void accept(Visitor *v);
   virtual AVariantFieldType *clone() const;
+  virtual bool cmp(VariantFieldType *type) const;
   void swap(AVariantFieldType &);
 };
 
@@ -1621,6 +1639,7 @@ public:
   ~ARecordFieldType();
   virtual void accept(Visitor *v);
   virtual ARecordFieldType *clone() const;
+  virtual bool cmp(RecordFieldType *type) const;
   void swap(ARecordFieldType &);
 };
 
@@ -1754,6 +1773,7 @@ class ListType : public Visitable, public std::vector<Type*>
 public:
   virtual void accept(Visitor *v);
   virtual ListType *clone() const;
+  bool cmp(ListType *listType) const;
 };
 
 ListType* consListType(Type* x, ListType* xs);
@@ -1763,6 +1783,7 @@ class ListVariantFieldType : public Visitable, public std::vector<VariantFieldTy
 public:
   virtual void accept(Visitor *v);
   virtual ListVariantFieldType *clone() const;
+  bool cmp(ListVariantFieldType *listType) const;
 };
 
 ListVariantFieldType* consListVariantFieldType(VariantFieldType* x, ListVariantFieldType* xs);
@@ -1772,6 +1793,7 @@ class ListRecordFieldType : public Visitable, public std::vector<RecordFieldType
 public:
   virtual void accept(Visitor *v);
   virtual ListRecordFieldType *clone() const;
+  bool cmp(ListRecordFieldType *listType) const;
 };
 
 ListRecordFieldType* consListRecordFieldType(RecordFieldType* x, ListRecordFieldType* xs);

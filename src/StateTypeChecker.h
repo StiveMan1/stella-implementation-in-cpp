@@ -19,7 +19,8 @@ namespace Stella {
                     return stackType[i - 1].second;
                 }
             }
-            return nullptr;
+            fprintf(stderr, "error: undefined variable\n");
+            exit(1);
         }
 
         void insertIdentDecl(const StellaIdent &ident, Type *type) {
@@ -32,7 +33,8 @@ namespace Stella {
                     return stackType[i - 1].second;
                 }
             }
-            return nullptr;
+            fprintf(stderr, "error: undefined variable\n");
+            exit(1);
         }
 
         void insertIdentType(const StellaIdent &ident, Type *type) {

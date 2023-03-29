@@ -2411,6 +2411,14 @@ NoTyping *NoTyping::clone() const
   return new NoTyping(*this);
 }
 
+bool NoTyping::cmp(OptionalTyping *type) const
+{
+    if(type == nullptr) return true;
+    auto *temp = dynamic_cast<NoTyping*>(type);
+    if(temp == nullptr) return false;
+    return true;
+}
+
 
 
 /********************   SomeTyping    ********************/
@@ -2453,6 +2461,14 @@ void SomeTyping::accept(Visitor *v)
 SomeTyping *SomeTyping::clone() const
 {
   return new SomeTyping(*this);
+}
+
+bool SomeTyping::cmp(OptionalTyping *type) const
+{
+    if(type == nullptr) return true;
+    auto *temp = dynamic_cast<SomeTyping*>(type);
+    if(temp == nullptr) return false;
+    return this->type_->cmp(temp->type_);
 }
 
 
@@ -3202,6 +3218,18 @@ TypeFun *TypeFun::clone() const
   return new TypeFun(*this);
 }
 
+bool TypeFun::cmp(Type *type) const
+{
+    if(type == nullptr) return true;
+    auto *temp = dynamic_cast<TypeFun*>(type);
+    if(temp == nullptr) return false;
+
+    if(this->listtype_ == nullptr || temp->listtype_ == nullptr) return true;
+    if(!this->listtype_->cmp(temp->listtype_)) return false;
+    if(this->type_ == nullptr) return true;
+    return this->type_->cmp(temp->type_);
+}
+
 
 
 /********************   TypeRec    ********************/
@@ -3247,6 +3275,17 @@ void TypeRec::accept(Visitor *v)
 TypeRec *TypeRec::clone() const
 {
   return new TypeRec(*this);
+}
+
+bool TypeRec::cmp(Type *type) const
+{
+    if(type == nullptr) return true;
+    auto *temp = dynamic_cast<TypeRec*>(type);
+    if(temp == nullptr) return false;
+
+    if(this->stellaident_ != temp->stellaident_) return false;
+    if(this->type_ == nullptr) return true;
+    return this->type_->cmp(temp->type_);
 }
 
 
@@ -3297,6 +3336,16 @@ TypeSum *TypeSum::clone() const
   return new TypeSum(*this);
 }
 
+bool TypeSum::cmp(Type *type) const
+{
+    if(type == nullptr) return true;
+    auto *temp = dynamic_cast<TypeSum*>(type);
+    if(temp == nullptr) return false;
+
+    if(this->type_1 == nullptr || this->type_2 == nullptr) return true;
+    return this->type_1->cmp(temp->type_1) && this->type_2->cmp(temp->type_2);
+}
+
 
 
 /********************   TypeTuple    ********************/
@@ -3339,6 +3388,17 @@ void TypeTuple::accept(Visitor *v)
 TypeTuple *TypeTuple::clone() const
 {
   return new TypeTuple(*this);
+}
+
+bool TypeTuple::cmp(Type *type) const
+{
+    if(type == nullptr) return true;
+    auto *temp = dynamic_cast<TypeTuple*>(type);
+    if(temp == nullptr) return false;
+
+    if(this->listtype_ == nullptr || temp->listtype_ == nullptr) return true;
+    if(!this->listtype_->cmp(temp->listtype_)) return false;
+    return true;
 }
 
 
@@ -3385,6 +3445,17 @@ TypeRecord *TypeRecord::clone() const
   return new TypeRecord(*this);
 }
 
+bool TypeRecord::cmp(Type *type) const
+{
+    if(type == nullptr) return true;
+    auto *temp = dynamic_cast<TypeRecord*>(type);
+    if(temp == nullptr) return false;
+
+    if(this->listrecordfieldtype_ == nullptr || temp->listrecordfieldtype_ == nullptr) return true;
+    if(!this->listrecordfieldtype_->cmp(temp->listrecordfieldtype_)) return false;
+    return true;
+}
+
 
 
 /********************   TypeVariant    ********************/
@@ -3427,6 +3498,17 @@ void TypeVariant::accept(Visitor *v)
 TypeVariant *TypeVariant::clone() const
 {
   return new TypeVariant(*this);
+}
+
+bool TypeVariant::cmp(Type *type) const
+{
+    if(type == nullptr) return true;
+    auto *temp = dynamic_cast<TypeVariant*>(type);
+    if(temp == nullptr) return false;
+
+    if(this->listvariantfieldtype_ == nullptr || temp->listvariantfieldtype_ == nullptr) return true;
+    if(!this->listvariantfieldtype_->cmp(temp->listvariantfieldtype_)) return false;
+    return true;
 }
 
 
@@ -3473,6 +3555,16 @@ TypeList *TypeList::clone() const
   return new TypeList(*this);
 }
 
+bool TypeList::cmp(Type *type) const
+{
+    if(type == nullptr) return true;
+    auto *temp = dynamic_cast<TypeList*>(type);
+    if(temp == nullptr) return false;
+
+    if(this->type_ == nullptr) return true;
+    return this->type_->cmp(temp->type_);
+}
+
 
 
 /********************   TypeBool    ********************/
@@ -3511,6 +3603,14 @@ void TypeBool::accept(Visitor *v)
 TypeBool *TypeBool::clone() const
 {
   return new TypeBool(*this);
+}
+
+bool TypeBool::cmp(Type *type) const
+{
+    if(type == nullptr) return true;
+    auto *temp = dynamic_cast<TypeBool*>(type);
+    if(temp == nullptr) return false;
+    return true;
 }
 
 
@@ -3553,6 +3653,14 @@ TypeNat *TypeNat::clone() const
   return new TypeNat(*this);
 }
 
+bool TypeNat::cmp(Type *type) const
+{
+    if(type == nullptr) return true;
+    auto *temp = dynamic_cast<TypeNat*>(type);
+    if(temp == nullptr) return false;
+    return true;
+}
+
 
 
 /********************   TypeUnit    ********************/
@@ -3591,6 +3699,14 @@ void TypeUnit::accept(Visitor *v)
 TypeUnit *TypeUnit::clone() const
 {
   return new TypeUnit(*this);
+}
+
+bool TypeUnit::cmp(Type *type) const
+{
+    if(type == nullptr) return true;
+    auto *temp = dynamic_cast<TypeUnit*>(type);
+    if(temp == nullptr) return false;
+    return true;
 }
 
 
@@ -3634,6 +3750,14 @@ void TypeVar::accept(Visitor *v)
 TypeVar *TypeVar::clone() const
 {
   return new TypeVar(*this);
+}
+
+bool TypeVar::cmp(Type *type) const
+{
+    if(type == nullptr) return true;
+    auto *temp = dynamic_cast<TypeVar*>(type);
+    if(temp == nullptr) return false;
+    return this->stellaident_ == temp->stellaident_;
 }
 
 
@@ -3683,6 +3807,15 @@ AVariantFieldType *AVariantFieldType::clone() const
   return new AVariantFieldType(*this);
 }
 
+bool AVariantFieldType::cmp(VariantFieldType *type) const
+{
+    if(type == nullptr) return true;
+    auto *temp = dynamic_cast<AVariantFieldType*>(type);
+    if(temp == nullptr) return false;
+    if(this->stellaident_ != temp->stellaident_) return false;
+    return this->optionaltyping_->cmp(temp->optionaltyping_);
+}
+
 
 
 /********************   ARecordFieldType    ********************/
@@ -3728,6 +3861,15 @@ void ARecordFieldType::accept(Visitor *v)
 ARecordFieldType *ARecordFieldType::clone() const
 {
   return new ARecordFieldType(*this);
+}
+
+bool ARecordFieldType::cmp(RecordFieldType *type) const
+{
+    if(type == nullptr) return true;
+    auto *temp = dynamic_cast<ARecordFieldType*>(type);
+    if(temp == nullptr) return false;
+    if(this->stellaident_ != temp->stellaident_) return false;
+    return this->type_->cmp(temp->type_);
 }
 
 
@@ -4014,6 +4156,15 @@ ListType* consListType(Type* x, ListType* xs) {
   return xs;
 }
 
+bool ListType::cmp(ListType *listType) const{
+    if(this->size() != listType->size()) return false;
+    for(int i=0;i<this->size();i++){
+        if(!this->at(i)->cmp(listType->at(i)))
+            return false;
+    }
+    return true;
+}
+
 
 /********************   ListVariantFieldType    ********************/
 
@@ -4030,6 +4181,15 @@ ListVariantFieldType *ListVariantFieldType::clone() const
 ListVariantFieldType* consListVariantFieldType(VariantFieldType* x, ListVariantFieldType* xs) {
   xs->insert(xs->begin(), x);
   return xs;
+}
+
+bool ListVariantFieldType::cmp(ListVariantFieldType *listType) const{
+    if(this->size() != listType->size()) return false;
+    for(int i=0;i<this->size();i++){
+        if(!this->at(i)->cmp(listType->at(i)))
+            return false;
+    }
+    return true;
 }
 
 
@@ -4049,6 +4209,16 @@ ListRecordFieldType* consListRecordFieldType(RecordFieldType* x, ListRecordField
   xs->insert(xs->begin(), x);
   return xs;
 }
+
+bool ListRecordFieldType::cmp(ListRecordFieldType *listType) const{
+    if(this->size() != listType->size()) return false;
+    for(int i=0;i<this->size();i++){
+        if(!this->at(i)->cmp(listType->at(i)))
+            return false;
+    }
+    return true;
+}
+
 
 
 
