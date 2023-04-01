@@ -1,6 +1,6 @@
-applying-non-function-1 14 0.00150442
+applying-non-function-1 15 0.0118322
 applying-non-function-2 14 0.00156217
-applying-non-function-3 14 0.00161422
+applying-non-function-3 15 0.021421
 argument-type-mismatch-1 14 0.00312516
 argument-type-mismatch-2 13 0.0045173
 argument-type-mismatch-3 13 0.0392949
@@ -32,4 +32,47 @@ bad-cmp-6 7 0.00424229
 bad-logic-not-1 6 0.00457962
 list-op 2 0.0115203
 logic-cmp 4 0.00558705
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/core/ill-typed/applying-non-function-1.stella 3 0.0074263
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/core/ill-typed/applying-non-function-2.stella 3 0.00764287
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/core/ill-typed/applying-non-function-3.stella 3 0.00816777
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/core/ill-typed/argument-type-mismatch-1.stella 3 0.0149015
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/core/ill-typed/argument-type-mismatch-2.stella 3 0.0170898
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/core/ill-typed/argument-type-mismatch-3.stella 3 0.021454
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/core/ill-typed/bad-if-1.stella 3 0.0167889
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/core/ill-typed/bad-if-2.stella 3 0.00963437
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/core/ill-typed/bad-if-3.stella 3 0.0101236
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/core/ill-typed/bad-if-4.stella 3 0.00974007
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/core/ill-typed/bad-squares-1.stella 3 0.00892917
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/core/ill-typed/bad-squares-2.stella 3 0.0107291
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/core/ill-typed/bad-succ-1.stella 3 0.0101223
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/core/ill-typed/bad-succ-2.stella 3 0.00872387
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/core/ill-typed/bad-succ-3.stella 3 0.00824337
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/core/ill-typed/shadowed-variable-1.stella 3 0.0080662
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/core/ill-typed/undefined-variable-1.stella 3 0.0092689
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/core/ill-typed/undefined-variable-2.stella 3 0.00948873
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/lists/ill-typed/bad-variants-1.stella 0 0
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/pairs/ill-typed/bad-pairs-1.stella 0 0
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/records/ill-typed/bad-records-1.stella 0 0
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/sum-types/ill-typed/bad-sum-types-1.stella 0 0
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/tuples/ill-typed/bad-tuples-1.stella 0 0
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/variants/ill-typed/bad-variants-1.stella 0 0
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/core/well-typed/factorial.stella 2 0.0128404
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/core/well-typed/higher-order-1.stella 2 0.0127672
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/core/well-typed/increment_twice.stella 2 0.0109133
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/core/well-typed/logical-operators.stella 2 0.0106997
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/core/well-typed/squares.stella 2 0.0112134
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/lists/well-typed/lists-1.stella 2 0.0105886
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/pairs/well-typed/pairs-1.stella 2 0.011851
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/records/well-typed/records-1.stella 2 0.0132924
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/sum-types/well-typed/sum-types-1.stella 2 0.0120844
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/sum-types/well-typed/sum-types-2.stella 2 0.0106941
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/tuples/well-typed/tuples-1.stella 2 0.0102174
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/variants/well-typed/variants-1.stella 2 0.0106767
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/variants/well-typed/variants-2.stella 2 0.0102638
 ---
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/lists/ill-typed/bad-variants-1.stella
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/pairs/ill-typed/bad-pairs-1.stella
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/records/ill-typed/bad-records-1.stella
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/sum-types/ill-typed/bad-sum-types-1.stella
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/tuples/ill-typed/bad-tuples-1.stella
+C:/Users/04024/Documents/stella-implementation-in-cpp/tests/variants/ill-typed/bad-variants-1.stella

@@ -1,13 +1,13 @@
 # ninja log v5
 19	384	7017077143274197	CMakeFiles/stella-interpreter.dir/src/Stella/Buffer.C.obj	60f7d6c9fd347c97
-14	997	7017390624903616	CMakeFiles/stella-interpreter.dir/src/TypeCheck.cpp.obj	e6d487b16edd23d0
+12	2734	7020792751842782	CMakeFiles/stella-interpreter.dir/src/TypeCheck.cpp.obj	e6d487b16edd23d0
 51	3112	7017374306844774	CMakeFiles/stella-interpreter.dir/src/Interpret.cpp.obj	4a8bbb83077c593a
-3	1607	7017955358169502	CMakeFiles/stella-interpreter.dir/src/VisitTypeCheck.cpp.obj	da16c3667fd391d8
 32	3190	7017374307411274	CMakeFiles/stella-interpreter.dir/src/Stella/Lexer.C.obj	bcddc5689b502e3f
+21	3066	7020792755192179	CMakeFiles/stella-interpreter.dir/src/VisitTypeCheck.cpp.obj	da16c3667fd391d8
 38	3249	7017374308267948	CMakeFiles/stella-interpreter.dir/src/Eval.cpp.obj	2fdbae3a60af5b74
-25	5128	7017374327555375	CMakeFiles/stella-interpreter.dir/src/Stella/Parser.C.obj	56cb1850c9984fd6
 15	4614	7017374321816072	CMakeFiles/stella-interpreter.dir/src/Stella/Printer.C.obj	17de9ca83b5b1716
+25	5128	7017374327555375	CMakeFiles/stella-interpreter.dir/src/Stella/Parser.C.obj	56cb1850c9984fd6
 3	5512	7017393430271064	CMakeFiles/stella-interpreter.dir/src/Stella/Absyn.C.obj	c026ee69bce3b2d7
-1608	3019	7017955372250197	stella-interpreter.exe	a2e14806f03fd4f
-3	866	7017390623593542	CMakeFiles/stella-interpreter.dir/src/StateTypeChecker.cpp.obj	91c1d20a149fba41
-10	1887	7017965625584172	build.ninja	d9c9c3635e103dca
+3067	4318	7020792767637654	stella-interpreter.exe	a2e14806f03fd4f
+4	2712	7020792751620316	CMakeFiles/stella-interpreter.dir/src/StateTypeChecker.cpp.obj	91c1d20a149fba41
+3	1002	7020800202010769	build.ninja	d9c9c3635e103dca
