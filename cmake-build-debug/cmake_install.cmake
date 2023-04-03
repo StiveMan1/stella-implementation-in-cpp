@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/04024/Documents/stella-implementation-in-cpp
+# Install script for directory: C:/Users/04024/CLionProjects/week-2-typechecker-for-stella-with-simple-extensions-StiveMan1
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/04024/Documents/stella-implementation-in-cpp/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/04024/CLionProjects/week-2-typechecker-for-stella-with-simple-extensions-StiveMan1/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

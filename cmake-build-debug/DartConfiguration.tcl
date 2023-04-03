@@ -4,8 +4,8 @@
 
 
 # Configuration directories and files
-SourceDirectory: C:/Users/04024/Documents/stella-implementation-in-cpp
-BuildDirectory: C:/Users/04024/Documents/stella-implementation-in-cpp/cmake-build-debug
+SourceDirectory: C:/Users/04024/CLionProjects/week-2-typechecker-for-stella-with-simple-extensions-StiveMan1
+BuildDirectory: C:/Users/04024/CLionProjects/week-2-typechecker-for-stella-with-simple-extensions-StiveMan1/cmake-build-debug
 
 # Where to place the cost data store
 CostDataFile: 
@@ -27,7 +27,7 @@ SubmitInactivityTimeout:
 NightlyStartTime: 00:00:00 EDT
 
 # Commands for the build/test/submit cycle
-ConfigureCommand: "C:/Users/04024/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/223.8836.42/bin/cmake/win/x64/bin/cmake.exe" "C:/Users/04024/Documents/stella-implementation-in-cpp"
+ConfigureCommand: "C:/Users/04024/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/223.8836.42/bin/cmake/win/x64/bin/cmake.exe" "C:/Users/04024/CLionProjects/week-2-typechecker-for-stella-with-simple-extensions-StiveMan1"
 MakeCommand: C:\Users\04024\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\223.8836.42\bin\cmake\win\x64\bin\cmake.exe --build . --config "${CTEST_CONFIGURATION_TYPE}"
 DefaultCTestConfigurationType: Release
 

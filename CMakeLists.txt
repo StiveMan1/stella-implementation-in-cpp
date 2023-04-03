@@ -42,7 +42,7 @@ foreach(FILE_PATH IN LISTS ILL_TEST_FILES)
 endforeach()
 
 set_tests_properties(${ILL_TEST_FILES}
-  PROPERTIES WILL_FAIL TRUE)
+        PROPERTIES WILL_FAIL TRUE)
 
 
 FILE(GLOB WELL_TEST_FILES "tests/*/well-typed/*")

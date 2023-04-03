@@ -1,6 +1,5 @@
 *.bak
 build/
-cmake-build-debug/
 *.o
 .DS_Store
 TestStella
