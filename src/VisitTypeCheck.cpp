@@ -91,6 +91,101 @@ namespace Stella {
         _state->insertIdentType(decl_type_alias->stellaident_, _type); // Insert new DeclTypeAlias type
     }
 
+    void VisitTypeCheck::visitDeclExceptionType(DeclExceptionType *decl_exception_type)
+    {
+        /* Code For DeclExceptionType Goes Here */
+
+        if (decl_exception_type->type_)
+            decl_exception_type->type_->accept(this);
+    }
+
+    void VisitTypeCheck::visitDeclExceptionVariant(DeclExceptionVariant *decl_exception_variant)
+    {
+        /* Code For DeclExceptionVariant Goes Here */
+
+        visitStellaIdent(decl_exception_variant->stellaident_);
+        if (decl_exception_variant->type_)
+            decl_exception_variant->type_->accept(this);
+    }
+
+    void VisitTypeCheck::visitAssign(Assign *assign)
+    {
+        /* Code For Assign Goes Here */
+
+        if (assign->expr_1)
+            assign->expr_1->accept(this);
+        Type *type1 = _type;
+        if (assign->expr_2)
+            assign->expr_2->accept(this);
+        Type *type2 = _type;
+
+        if(!type1->cmp(new TypeRef(type2))){  // Compare type1 and TypeRef(type2) types
+            fprintf(stderr, "error: %d,%d: semantic error\n", assign->line_number, assign->char_number);
+            exit(1);
+        }
+        _type = new TypeUnit(); // Return TypeUnit
+    }
+
+    void VisitTypeCheck::visitRef(Ref *ref)
+    {
+        /* Code For Ref Goes Here */
+
+        if (ref->expr_)
+            ref->expr_->accept(this);
+        _type = new TypeRef(_type); // Return new type TypeRef
+    }
+
+    void VisitTypeCheck::visitDeref(Deref *deref)
+    {
+        /* Code For Deref Goes Here */
+
+        if (deref->expr_)
+            deref->expr_->accept(this);
+
+        if(!_type->cmp(new TypeRef(nullptr))){  // Compare _type and TypeRef types
+            fprintf(stderr, "error: %d,%d: semantic error\n", deref->line_number, deref->char_number);
+            exit(1);
+        }
+
+        auto *ref_type = dynamic_cast<TypeRef *>(_type);
+        _type = ref_type->type_; // Return sub type of ref_type
+    }
+
+    void VisitTypeCheck::visitPanic(Panic *panic)
+    {
+        /* Code For Panic Goes Here */
+    }
+
+    void VisitTypeCheck::visitThrow(Throw *throw_)
+    {
+        /* Code For Throw Goes Here */
+
+        if (throw_->expr_)
+            throw_->expr_->accept(this);
+    }
+
+    void VisitTypeCheck::visitTryCatch(TryCatch *try_catch)
+    {
+        /* Code For TryCatch Goes Here */
+
+        if (try_catch->expr_1)
+            try_catch->expr_1->accept(this);
+        if (try_catch->pattern_)
+            try_catch->pattern_->accept(this);
+        if (try_catch->expr_2)
+            try_catch->expr_2->accept(this);
+    }
+
+    void VisitTypeCheck::visitTryWith(TryWith *try_with)
+    {
+        /* Code For TryWith Goes Here */
+
+        if (try_with->expr_1)
+            try_with->expr_1->accept(this);
+        if (try_with->expr_2)
+            try_with->expr_2->accept(this);
+    }
+
     void VisitTypeCheck::visitALocalDecl(ALocalDecl *a_local_decl) {
         /* Code For ALocalDecl Goes Here */
 
@@ -212,6 +307,27 @@ namespace Stella {
     void VisitTypeCheck::visitTypeUnit(TypeUnit *type_unit) {
         /* Code For TypeUnit Goes Here */
         _type = type_unit; // Return type_unit
+    }
+
+    void VisitTypeCheck::visitTypeTop(TypeTop *type_top)
+    {
+        /* Code For TypeTop Goes Here */
+        _type = type_top; // Return type_top
+    }
+
+    void VisitTypeCheck::visitTypeBottom(TypeBottom *type_bottom)
+    {
+        /* Code For TypeBottom Goes Here */
+        _type = type_bottom; // Return type_bottom
+    }
+
+    void VisitTypeCheck::visitTypeRef(TypeRef *type_ref)
+    {
+        /* Code For TypeRef Goes Here */
+
+        if (type_ref->type_)
+            type_ref->type_->accept(this);
+        _type = new TypeRef(_type); // Return new type TypeRef
     }
 
     void VisitTypeCheck::visitTypeVar(TypeVar *type_var) {
@@ -491,20 +607,26 @@ namespace Stella {
 
     void VisitTypeCheck::visitLet(Let *let) {
         /* Code For Let Goes Here */
+        _state->appendScope();
 
         if (let->listpatternbinding_)
             let->listpatternbinding_->accept(this);
         if (let->expr_)
             let->expr_->accept(this);
+
+        _state->removeScope();
     }
 
     void VisitTypeCheck::visitLetRec(LetRec *let_rec) {
         /* Code For LetRec Goes Here */
+        _state->appendScope();
 
         if (let_rec->listpatternbinding_)
             let_rec->listpatternbinding_->accept(this);
         if (let_rec->expr_)
             let_rec->expr_->accept(this);
+
+        _state->removeScope();
     }
 
     void VisitTypeCheck::visitLessThan(LessThan *less_than) {
@@ -617,6 +739,23 @@ namespace Stella {
 
         if (!type1->cmp(type2)) { // Compare type1 and type2 types
             fprintf(stderr, "error: %d,%d: semantic error\n", type_asc->line_number, type_asc->char_number);
+            exit(1);
+        }
+    }
+
+    void VisitTypeCheck::visitTypeCast(TypeCast *type_cast)
+    {
+        /* Code For TypeCast Goes Here */
+
+        if (type_cast->expr_)
+            type_cast->expr_->accept(this);
+        Type *type1 = _type; // Save type from expr_
+        if (type_cast->type_)
+            type_cast->type_->accept(this);
+        Type *type2 = _type; // Save type from type_
+
+        if (!type1->cmp(new TypeRef(type2))) { // Compare type1 and type2 types
+            fprintf(stderr, "error: %d,%d: semantic error\n", type_cast->line_number, type_cast->char_number);
             exit(1);
         }
     }
@@ -796,7 +935,7 @@ namespace Stella {
 
         if (dot_record->expr_)
             dot_record->expr_->accept(this);
-        if (!_type->cmp(new TypeRecord(nullptr))) { // Compare _type and TypeTuple types
+        if (!_type->cmp(new TypeRecord(nullptr))) { // Compare _type and TypeRecord types
             fprintf(stderr, "error: %d,%d: semantic error\n", dot_record->line_number, dot_record->char_number);
             exit(1);
         }
@@ -1038,6 +1177,14 @@ namespace Stella {
         _type = new TypeNat(); // Return new type TypeNat
     }
 
+    void VisitTypeCheck::visitConstMemory(ConstMemory *const_memory)
+    {
+        /* Code For ConstMemory Goes Here */
+
+        visitMemoryAddress(const_memory->memoryaddress_);
+        _type = new TypeRef(nullptr); // Return new type TypeRef
+    }
+
     void VisitTypeCheck::visitVar(Var *var) {
         /* Code For Var Goes Here */
 
@@ -1048,10 +1195,18 @@ namespace Stella {
     void VisitTypeCheck::visitAPatternBinding(APatternBinding *a_pattern_binding) {
         /* Code For APatternBinding Goes Here */
 
-        if (a_pattern_binding->pattern_)
-            a_pattern_binding->pattern_->accept(this);
-        if (a_pattern_binding->expr_)
-            a_pattern_binding->expr_->accept(this);
+        if (_match == nullptr) {
+            if (a_pattern_binding->expr_)
+                a_pattern_binding->expr_->accept(this);
+            _match = _type;
+            if (a_pattern_binding->pattern_)
+                a_pattern_binding->pattern_->accept(this);
+        } else {
+            if (a_pattern_binding->pattern_)
+                a_pattern_binding->pattern_->accept(this);
+            if (a_pattern_binding->expr_)
+                a_pattern_binding->expr_->accept(this);
+        }
     }
 
     void VisitTypeCheck::visitAVariantFieldType(AVariantFieldType *a_variant_field_type) {
@@ -1176,6 +1331,7 @@ namespace Stella {
 
     void VisitTypeCheck::visitListPatternBinding(ListPatternBinding *list_pattern_binding) {
         for (auto & i : *list_pattern_binding) {
+            _match = nullptr;
             i->accept(this);
         }
     }
@@ -1224,6 +1380,11 @@ namespace Stella {
 
     void VisitTypeCheck::visitExtensionName(ExtensionName x) {
         /* Code for ExtensionName Goes Here */
+    }
+
+    void VisitTypeCheck::visitMemoryAddress(MemoryAddress x)
+    {
+        /* Code for MemoryAddress Goes Here */
     }
 
 }
